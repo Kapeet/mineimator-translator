@@ -10,8 +10,8 @@ function App() {
   const [translatedJson, setTranslatedJson] = useState(null)
 
 
-  const onInitiatedTranslate = () => {
-    const translatedJson = parseJsonObject(languageFileJson);
+  const onInitiatedTranslate = async () => {
+    const translatedJson = await parseJsonObject(languageFileJson);
     setTranslatedJson(translatedJson);
 }
 
@@ -20,7 +20,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <button disabled={!languageFileJson} onClick={onInitiatedTranslate}>deez</button>
-        <pre style={{textAlign: 'start'}}>
+        <pre style={{textAlign: 'start', fontSize: 9}}>
           <code>
             {JSON.stringify(translatedJson, null, 2)}
           </code>
