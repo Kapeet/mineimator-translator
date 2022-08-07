@@ -3,6 +3,7 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import languageJson from './assets/language.json'
 import { parseJsonObject } from './utils/helpers';
+
 function App() {
 
 
@@ -14,6 +15,8 @@ function App() {
     const translatedJson = await parseJsonObject(languageFileJson);
     setTranslatedJson(translatedJson);
 }
+
+useEffect(() => console.log({translatedJson}))
 
   return (
     <div className="App">
