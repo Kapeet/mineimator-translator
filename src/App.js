@@ -16,7 +16,6 @@ function App() {
     setTranslatedJson(translatedJson);
 }
 
-useEffect(() => console.log({translatedJson}))
 
   return (
     <div className="App">
