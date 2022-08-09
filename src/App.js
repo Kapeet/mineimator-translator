@@ -10,17 +10,19 @@ function App() {
   const [languageFileJson, setLanguageFileJson] = useState(languageJson)
   const [translatedJson, setTranslatedJson] = useState(null)
   const [selectedLanguage, setSelectedLanguage] = useState(ISO6391.getAllNames()[0]);
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const onInitiatedTranslate = async language => {
     if (!language) {
       setError(`invalid language selected ${language}`);
       return;
     }
+    setLoading(true)
     const languageCode = ISO6391.getCode(language);
     const translatedJson = await parseJsonObject(languageFileJson, languageCode);
     setTranslatedJson(translatedJson);
+    setLoading(false);
 }
-console.log(selectedLanguage)
 
   return (
     <div className="App">
@@ -33,11 +35,16 @@ console.log(selectedLanguage)
         <br />
         <button disabled={!languageFileJson} onClick={() => onInitiatedTranslate(selectedLanguage)}>Translate!</button>
         {error ? error : null}
+        {loading ? 'Processing, please wait...' :
+        (
         <pre style={{textAlign: 'start', fontSize: 9}}>
           <code>
             {JSON.stringify(translatedJson) ?JSON.stringify(translatedJson, null, 2) : null}
           </code>
         </pre>
+
+        )
+        }
       </header>
     </div>
   );
