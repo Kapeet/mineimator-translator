@@ -4,10 +4,9 @@ import { useState } from 'react';
 import languageJson from './assets/language.json'
 import { parseJsonObject } from './utils/helpers';
 import ISO6391 from 'iso-639-1'
+
 function App() {
 
-
-  const [languageFileJson, setLanguageFileJson] = useState(languageJson)
   const [translatedJson, setTranslatedJson] = useState(null)
   const [selectedLanguage, setSelectedLanguage] = useState(ISO6391.getAllNames()[0]);
   const [loading, setLoading] = useState(false)
@@ -19,7 +18,7 @@ function App() {
     }
     setLoading(true)
     const languageCode = ISO6391.getCode(language);
-    const translatedJson = await parseJsonObject(languageFileJson, languageCode);
+    const translatedJson = await parseJsonObject(languageJson, languageCode);
     setTranslatedJson(translatedJson);
     setLoading(false);
 }
@@ -33,7 +32,7 @@ function App() {
           {ISO6391.getAllNames().map(language => <option key={language}>{language}</option>)}
         </select>
         <br />
-        <button disabled={!languageFileJson} onClick={() => onInitiatedTranslate(selectedLanguage)}>Translate!</button>
+        <button disabled={!languageJson} onClick={() => onInitiatedTranslate(selectedLanguage)}>Translate!</button>
         {error ? error : null}
         {loading ? 'Processing, please wait...' :
         (
