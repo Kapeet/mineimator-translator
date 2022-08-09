@@ -25,3 +25,14 @@ function* iter(obj){
         else yield* iter(value);
     }
 }
+
+
+export function downloadJsonAsMilanguageFile(data, filename) {
+  const pom = document.createElement('a');
+  const csvContent = data;
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  pom.href = url;
+  pom.setAttribute('download', `${filename}`);
+  pom.click();
+};
