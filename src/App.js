@@ -4,13 +4,14 @@ import { useState } from 'react';
 import languageJson from './assets/language.json'
 import { parseJsonObject } from './utils/helpers';
 import ISO6391 from 'iso-639-1'
-import { Button, CircularProgress, MenuItem, Select } from '@mui/material';
+import { Autocomplete, Button, CircularProgress, TextField } from '@mui/material';
 import {Spacer} from './components/Spacer'
+import styled from '@emotion/styled';
 
 function App() {
 
   const [translatedJson, setTranslatedJson] = useState(null)
-  const [selectedLanguage, setSelectedLanguage] = useState(ISO6391.getAllNames()[1]);
+  const [selectedLanguage, setSelectedLanguage] = useState('');
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const onInitiatedTranslate = async language => {
@@ -20,31 +21,55 @@ function App() {
     }
     setLoading(true)
     const languageCode = ISO6391.getCode(language);
-    const translatedJson = await parseJsonObject(languageJson, languageCode);
+    let translatedJson
+    try {
+      translatedJson = await parseJsonObject(languageJson, languageCode);
+    }
+    catch (e) {
+      translatedJson = null;
+      setError(e);
+    }
     setTranslatedJson(translatedJson);
     setLoading(false);
 }
 
-console.log(selectedLanguage)
+const onChangedLanguage = (event, newLanguage) => {
+  setError('')
+  setSelectedLanguage(newLanguage)
+}
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        <Spacer />
         <label>Choose a language to translate to:</label>
+        {error ? <p style={{color: 'darkred'}}>{error}</p> : null}
         <Spacer />
-        <Select variant='filled' value={selectedLanguage} placeholder='Select a language...' onChange={e => setSelectedLanguage(e.target.value)}>
-        {ISO6391.getAllNames().map(language => <MenuItem key={language} value={language}>{language}</MenuItem>)}
-        </Select>
+        <StyledAutocomplete
+        style={{width: '300px'}}
+          renderInput={params => <TextField {...params} label="Select a Language" />}
+          options={ISO6391.getAllNames()}  
+          value={selectedLanguage} 
+          onChange={onChangedLanguage}
+         />
         <Spacer />
-        {loading ? <CircularProgress /> :
+        {loading ? (
+          <span>
+            <CircularProgress />
+            <p>
+              This might take a few minutes, 
+              check the console tab in the devtools (F12) for more info
+            </p>
+          </span>
+        ) :
         <Button variant='contained' disabled={!languageJson} onClick={() => onInitiatedTranslate(selectedLanguage)}>Translate!</Button>
       }
-              <Spacer />
-        {error ? error : null}
+
         <Spacer />
         <pre style={{textAlign: 'start', fontSize: 9}}>
           <code>
-            {JSON.stringify(translatedJson) ?JSON.stringify(translatedJson, null, 2) : null}
+            {translatedJson ? JSON.stringify(translatedJson, null, 2) : null}
           </code>
         </pre>
 
@@ -55,4 +80,11 @@ console.log(selectedLanguage)
   );
 }
 
+const StyledAutocomplete = styled(Autocomplete)`
+  & .MuiAutocomplete-inputRoot {
+    color: white;
+  }
+
+  & .
+`
 export default App;
