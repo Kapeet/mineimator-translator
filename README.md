@@ -1,6 +1,7 @@
-# Getting Started with Create React App
+# Mine-imator Translator
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Hey, welcome to my mini project. This is a web application created with React in order to automate the process of automating the translation process of Mine-Imator.
+
 
 ## Available Scripts
 
