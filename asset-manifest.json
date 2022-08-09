@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/mineimator-translator/static/css/main.9fefa7dc.css",
-    "main.js": "/mineimator-translator/static/js/main.4a16311e.js",
-    "static/js/787.33a1e375.chunk.js": "/mineimator-translator/static/js/787.33a1e375.chunk.js",
-    "static/media/icon.png": "/mineimator-translator/static/media/icon.2817511da09372992435.png",
-    "index.html": "/mineimator-translator/index.html",
-    "main.9fefa7dc.css.map": "/mineimator-translator/static/css/main.9fefa7dc.css.map",
-    "main.4a16311e.js.map": "/mineimator-translator/static/js/main.4a16311e.js.map",
-    "787.33a1e375.chunk.js.map": "/mineimator-translator/static/js/787.33a1e375.chunk.js.map"
+    "main.css": "/static/css/main.9fefa7dc.css",
+    "main.js": "/static/js/main.28e70d67.js",
+    "static/js/787.33a1e375.chunk.js": "/static/js/787.33a1e375.chunk.js",
+    "static/media/icon.png": "/static/media/icon.2817511da09372992435.png",
+    "index.html": "/index.html",
+    "main.9fefa7dc.css.map": "/static/css/main.9fefa7dc.css.map",
+    "main.28e70d67.js.map": "/static/js/main.28e70d67.js.map",
+    "787.33a1e375.chunk.js.map": "/static/js/787.33a1e375.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.9fefa7dc.css",
-    "static/js/main.4a16311e.js"
+    "static/js/main.28e70d67.js"
   ]
 }
