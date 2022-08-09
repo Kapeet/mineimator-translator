@@ -1,10 +1,11 @@
 import logo from './assets/icon.png';
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import languageJson from './assets/language.json'
 import { parseJsonObject } from './utils/helpers';
 import ISO6391 from 'iso-639-1'
 import { Button, CircularProgress, MenuItem, Select } from '@mui/material';
+import {Spacer} from './components/Spacer'
 
 function App() {
 
@@ -30,17 +31,17 @@ console.log(selectedLanguage)
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <label>Choose a language to translate to:</label>
-        <div style={{height: 10}} />
+        <Spacer />
         <Select variant='filled' value={selectedLanguage} placeholder='Select a language...' onChange={e => setSelectedLanguage(e.target.value)}>
         {ISO6391.getAllNames().map(language => <MenuItem key={language} value={language}>{language}</MenuItem>)}
         </Select>
-        <div style={{height: 10}} />
+        <Spacer />
         {loading ? <CircularProgress /> :
         <Button variant='contained' disabled={!languageJson} onClick={() => onInitiatedTranslate(selectedLanguage)}>Translate!</Button>
       }
-      <div style={{height: 10}} />
+              <Spacer />
         {error ? error : null}
-      <div style={{height: 10}} />
+        <Spacer />
         <pre style={{textAlign: 'start', fontSize: 9}}>
           <code>
             {JSON.stringify(translatedJson) ?JSON.stringify(translatedJson, null, 2) : null}
