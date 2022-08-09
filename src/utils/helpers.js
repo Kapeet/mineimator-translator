@@ -1,16 +1,14 @@
 
-
-import { flatMap } from "lodash";
-import isObject from "lodash/isObject";
 import translate from 'translate'
 
 
-export const parseJsonObject = async (json) => {
+export const parseJsonObject = async (json, languageCode) => {
+  console.log({languageCode})
   for (const [obj, key, value] of iter(json)) {
-      console.log('currently processing key ',key)
-      if (typeof value !== 'string') return;
-      try {
-        obj[key] = await translate(value, 'he');
+    if (typeof value !== 'string') return;
+    try {
+        obj[key] = await translate(value, languageCode);
+      console.log(`translated key ${key} result: ${obj[key]}`);
       }
       catch (e) {
           console.warn(e, value);
