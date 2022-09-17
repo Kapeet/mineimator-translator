@@ -2,23 +2,55 @@
 import translate from 'translate'
 
 
-export const parseJsonObject = async (json, languageCode) => {
-  console.log({languageCode})
+export const translateJsonObject = async (json, languageCode) => {
+
+  const keyValuePairArray = parseJsonIntoKeyValuePairs(json);
+  const valuesArray = keyValuePairArray.map(obj => obj.value);
+  const translatedValues = []
+  while (valuesArray.length > 0) {
+    const chunk = valuesArray.splice(0,100);
+    const translatedChunk = await translate(chunk.toString(),languageCode)
+    try {
+      translatedValues.push(translatedChunk.split(','));
+
+    }
+    catch (error) {
+      console.error('error while parsing translated chunk', {error, translatedChunk});
+    }
+  }
+  const jsonWithTranslatedValues = turnTranslatedValuesBackToJsonFormat(json,translatedValues)
+  return jsonWithTranslatedValues;
+}
+
+function turnTranslatedValuesBackToJsonFormat(json, keyValuePairArray) {
   for (const [obj, key, value] of iter(json)) {
     if (typeof value !== 'string') return;
+    obj[key] = keyValuePairArray.shift();
     try {
-        obj[key] = await translate(value, languageCode);
-      console.log(`translated key ${key} result: ${obj[key]}`);
       }
       catch (e) {
           console.warn(e, value);
-          obj[key] = value;
       }
   }
   return json;
 }
 
-
+function parseJsonIntoKeyValuePairs(json) {
+  const  keyValuePairArray = [];
+  for (const [key, value] of iter(json)) {
+    if (typeof value !== 'string') return;
+    keyValuePairArray.push({
+      key: key,
+      value: value,
+    });
+    try {
+      }
+      catch (e) {
+          console.warn(e, value);
+      }
+  }
+  return keyValuePairArray
+}
 function* iter(obj){
     for (const [key, value] of Object.entries(obj)) {
         if (Object(value) !== value) yield [obj, key, value];
