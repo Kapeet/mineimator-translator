@@ -31,7 +31,7 @@ function App() {
     }
     catch (e) {
       translatedJson = null;
-      setError(e);
+      setError('Something went wrong while processing the language file');
     }
 
     setTranslatedJson(translatedJson);
@@ -51,7 +51,9 @@ const downloadJson = () => downloadJsonAsMilanguageFile(JSON.stringify(translate
         <img src={logo} className="App-logo" alt="logo" />
         <Spacer />
         <label>Choose a language to translate to:</label>
+
         {error ? <p style={{color: 'darkred'}}>{error}</p> : null}
+
         <Spacer />
         <StyledAutocomplete
         style={{width: '300px'}}
@@ -69,17 +71,18 @@ const downloadJson = () => downloadJsonAsMilanguageFile(JSON.stringify(translate
               check the console tab in the devtools (F12) for more info
             </p>
           </span>
-        ) :
+        ) : (
         <>
-        <Button variant='contained' disabled={!languageJson} onClick={() => onInitiatedTranslate(selectedLanguage)}>Translate!</Button>
-        {isFinished && <Button variant='contained' onClick={downloadJson} >Download language file</Button>}
+          <Button variant='contained' disabled={!languageJson} onClick={() => onInitiatedTranslate(selectedLanguage)}>Translate!</Button>
+          {isFinished && <Button variant='contained' onClick={downloadJson} >Download language file</Button>}
         </>
+        )
       }
 
         <Spacer />
         <pre style={{textAlign: 'start', fontSize: 9}}>
           <code>
-            {translatedJson ? JSON.stringify(translatedJson, null, 2) : null}
+          {translatedJson ? JSON.stringify(translatedJson, null, 2) : null}
           </code>
         </pre>
 
