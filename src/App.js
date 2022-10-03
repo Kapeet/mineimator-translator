@@ -2,7 +2,7 @@ import logo from './assets/icon.png';
 import './App.css';
 import { useState } from 'react';
 import languageJson from './assets/language.json'
-import { downloadJsonAsMilanguageFile, parseJsonObject } from './utils/helpers';
+import { downloadJsonAsMilanguageFile, translateJsonObject } from './utils/helpers';
 import ISO6391 from 'iso-639-1'
 import { Autocomplete, Button, CircularProgress, TextField } from '@mui/material';
 import {Spacer} from './components/Spacer'
@@ -24,15 +24,16 @@ function App() {
     setIsFinished(false);
     setLoading(true)
     const languageCode = ISO6391.getCode(language);
-    let translatedJson
+    let translatedJson;
     try {
-      translatedJson = await parseJsonObject(languageJson, languageCode);
+      translatedJson = await translateJsonObject(languageJson, languageCode);
       setIsFinished(true);
     }
     catch (e) {
       translatedJson = null;
-      setError(e);
+      setError('Something went wrong while processing the language file');
     }
+
     setTranslatedJson(translatedJson);
     setLoading(false);
 }
@@ -50,7 +51,9 @@ const downloadJson = () => downloadJsonAsMilanguageFile(JSON.stringify(translate
         <img src={logo} className="App-logo" alt="logo" />
         <Spacer />
         <label>Choose a language to translate to:</label>
+
         {error ? <p style={{color: 'darkred'}}>{error}</p> : null}
+
         <Spacer />
         <StyledAutocomplete
         style={{width: '300px'}}
@@ -68,17 +71,18 @@ const downloadJson = () => downloadJsonAsMilanguageFile(JSON.stringify(translate
               check the console tab in the devtools (F12) for more info
             </p>
           </span>
-        ) :
+        ) : (
         <>
-        <Button variant='contained' disabled={!languageJson} onClick={() => onInitiatedTranslate(selectedLanguage)}>Translate!</Button>
-        {isFinished && <Button variant='contained' onClick={downloadJson} >Download language file</Button>}
+          <Button variant='contained' disabled={!languageJson} onClick={() => onInitiatedTranslate(selectedLanguage)}>Translate!</Button>
+          {isFinished && <Button variant='contained' onClick={downloadJson} >Download language file</Button>}
         </>
+        )
       }
 
         <Spacer />
         <pre style={{textAlign: 'start', fontSize: 9}}>
           <code>
-            {translatedJson ? JSON.stringify(translatedJson, null, 2) : null}
+          {translatedJson ? JSON.stringify(translatedJson, null, 2) : null}
           </code>
         </pre>
 
