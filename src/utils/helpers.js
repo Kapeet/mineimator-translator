@@ -9,9 +9,11 @@ export const translateJsonObject = async (json, languageCode) => {
   const translatedValues = []
   while (valuesArray.length > 0) {
     const chunk = valuesArray.splice(0,100);
-    const translatedChunk = await translate(chunk.toString(),languageCode)
+    const translatedChunk = await translate(chunk.join('|'),languageCode)
+    console.log({translatedChunk: translatedChunk.split('|'), chunk })
     try {
-      translatedValues.push(translatedChunk.split(','));
+      translatedChunk.split('|').forEach(string => translatedValues.push(string))
+      
 
     }
     catch (error) {
